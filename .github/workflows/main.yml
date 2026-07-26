@@ -1,18 +1,15 @@
-name: Descargar Imagen OCS
-on:
-  workflow_dispatch:
-
+name: Descargar OCS
+on: workflow_dispatch
 jobs:
-  descargar:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull y Save de la imagen
-        run: |
-          docker pull ocsinventory/ocsinventory:latest
-          docker save -o ocs_image.tar ocsinventory/ocsinventory:latest
-          
-      - name: Subir como archivo descargable
+      - name: Descargar imagen
+        run: docker pull docker.io/ocsinventory/ocsinventory:latest
+      - name: Empaquetar imagen
+        run: docker save -o ocs_image.tar docker.io/ocsinventory/ocsinventory:latest
+      - name: Subir archivo
         uses: actions/upload-artifact@v4
         with:
-          name: ocs-image-tar
+          name: imagen-ocs
           path: ocs_image.tar
